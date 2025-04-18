@@ -78,6 +78,18 @@ apt::source { 'openvox8-release':
   },
 }
 ```
+For yum you can do the following:
+```puppet
+include yum
+$os_name = $facts['os']['name'] ? {
+  /(AlmaLinux)|(Rocky)|(RedHat)|(Centos)/ => 'el',
+  'Fedora'                                => 'fedora',
+}
+yum::install { 'openvox8-release':
+  ensure => 'present',
+  source => "https://yum.voxpupuli.org/openvox8-release-${os_name}-${$facts['os']['release']['major']}.noarch.rpm"
+}
+```
 
 ### Server/Client
 
